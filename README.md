@@ -1,7 +1,7 @@
 # errstack
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/didip/errstack/blob/main/LICENSE)
-
+[![Go Reference](https://pkg.go.dev/badge/github.com/didip/errstack.svg)](https://pkg.go.dev/github.com/didip/errstack)
 
 A very small library to combine errors.
 
