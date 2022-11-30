@@ -17,7 +17,7 @@ pool.go:19="missing max value" users.go:25="missing password field"
 package main
 
 import (
-	"log"
+    "log"
 )
 
 func main() {
