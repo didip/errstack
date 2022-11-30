@@ -108,10 +108,15 @@ func TestTrimFilename(t *testing.T) {
 	expected1 := `github.com/didip/errstack/errstack_test.go:96="username is too short" github.com/didip/errstack/errstack_test.go:93="company name is missing" github.com/didip/errstack/errstack.go:24="password field is missing"`
 	expected2 := `/home/runner/work/errstack/errstack/errstack_test.go:96="username is too short" /home/runner/work/errstack/errstack/errstack_test.go:93="company name is missing" /home/runner/work/errstack/errstack/errstack.go:24="password field is missing"`
 	expected3 := `/Users/runner/work/errstack/errstack/errstack_test.go:96="username is too short" /Users/runner/work/errstack/errstack/errstack_test.go:93="company name is missing" /Users/runner/work/errstack/errstack/errstack.go:24="password field is missing"`
+	expected4 := `D:/a/errstack/errstack/errstack_test.go:96="username is too short" D:/a/errstack/errstack/errstack_test.go:93="company name is missing" D:/a/errstack/errstack/errstack.go:24="password field is missing"	`
 
 	// expected2 is when Github Action is running
-	if (e.Error() != expected1) && (e.Error() != expected2) && (e.Error() != expected3) {
-		t.Fatalf("Error string incorrect.\nexpected: %v,\nor: %v,\nor: %v,\ngot: %v", expected1, expected2, expected3, e.Error())
+	if (e.Error() != expected1) && (e.Error() != expected2) && (e.Error() != expected3) && (e.Error() != expected4) {
+		t.Fatalf(
+			"Error string incorrect.\nexpected: %v,\nor: %v,\nor: %v,\nor: %v,\ngot: %v",
+			expected1, expected2, expected3, expected4,
+			e.Error(),
+		)
 	}
 
 	e.SetTrimFilename(false)
