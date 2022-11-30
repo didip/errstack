@@ -30,7 +30,7 @@ func main() {
     // 3. And then the third error occured.
     e.Append("username is too short")
 
-	log.Println(e.Error())
+    log.Println(e.Error())
     // The log will look like this:
     // /path/to/project.go:68="username is too short" /path/to/project.go:65="company name is missing" /Users/didip/go/src/github.com/didip/errstack/errstack.go:15="password field is missing"
 }
