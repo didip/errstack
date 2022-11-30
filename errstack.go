@@ -38,7 +38,9 @@ func (es *ErrStack) Append(err string) {
 
 // SetShowMetadata is a flag to display/hide filename and line number
 func (es *ErrStack) SetShowMetadata(showMetadata bool) {
+	es.mtx.Lock()
 	es.showMetadata = showMetadata
+	es.mtx.Unlock()
 }
 
 // GetAll returns a list of *Err structs in a LIFO fashion

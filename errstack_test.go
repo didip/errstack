@@ -71,9 +71,9 @@ func TestNoMetadata(t *testing.T) {
 		t.Fatalf("There should be 3 errors. Got: %v", len(e.stack))
 	}
 
-	e.SetShowMetadata(true)
+	e.SetShowMetadata(false)
 
-	if e.showMetadata != true {
+	if e.showMetadata != false {
 		t.Fatalf("Failed to set showMetadata")
 	}
 
