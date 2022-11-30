@@ -1,6 +1,7 @@
 package errstack
 
 import (
+	"os"
 	"strings"
 	"testing"
 )
@@ -104,19 +105,17 @@ func TestTrimFilename(t *testing.T) {
 		t.Fatalf("Failed to set trimFilename")
 	}
 
-	expected := `github.com/didip/errstack/errstack_test.go:95="username is too short" github.com/didip/errstack/errstack_test.go:92="company name is missing" github.com/didip/errstack/errstack.go:24="password field is missing"`
+	expected1 := `github.com/didip/errstack/errstack_test.go:96="username is too short" github.com/didip/errstack/errstack_test.go:93="company name is missing" github.com/didip/errstack/errstack.go:24="password field is missing"`
+	expected2 := `/home/runner/work/errstack/errstack/errstack_test.go:96="username is too short" /home/runner/work/errstack/errstack/errstack_test.go:93="company name is missing" /home/runner/work/errstack/errstack/errstack.go:24="password field is missing"`
 
-	if e.Error() != expected {
-		t.Fatalf("Error string incorrect.\nexpected: %v,\ngot: %v", expected, e.Error())
+	// expected2 is when Github Action is running
+	if (e.Error() != expected1) && (e.Error() != expected2) {
+		t.Fatalf("Error string incorrect.\nexpected: %v,\nor: %v,\ngot: %v", expected1, expected2, e.Error())
 	}
 
 	e.SetTrimFilename(false)
 
-	if e.trimFilename != false {
-		t.Fatalf("Failed to set trimFilename")
-	}
-
-	if e.Error() == expected {
-		t.Fatalf("Error string incorrect.\nexpected: %v,\ngot: %v", expected, e.Error())
+	if !strings.HasPrefix(e.Error(), string(os.PathSeparator)) {
+		t.Fatalf("Error string incorrect. Expected e.Error() to start with %v", string(os.PathSeparator))
 	}
 }
