@@ -80,6 +80,43 @@ func TestNoMetadata(t *testing.T) {
 	expected := "username is too short, company name is missing, password field is missing"
 
 	if e.Error() != expected {
-		t.Fatalf("Error string incorrect. expected: %v, got: %v", expected, e.Error())
+		t.Fatalf("Error string incorrect.\nexpected: %v,\ngot: %v", expected, e.Error())
+	}
+}
+
+func TestTrimFilename(t *testing.T) {
+	// 1. First error
+	e := New("password field is missing")
+
+	// 2. And then the second error occured.
+	e.Append("company name is missing")
+
+	// 3. And then the third error occured.
+	e.Append("username is too short")
+
+	if len(e.stack) != 3 {
+		t.Fatalf("There should be 3 errors. Got: %v", len(e.stack))
+	}
+
+	e.SetTrimFilename(true)
+
+	if e.trimFilename != true {
+		t.Fatalf("Failed to set trimFilename")
+	}
+
+	expected := `github.com/didip/errstack/errstack_test.go:95="username is too short" github.com/didip/errstack/errstack_test.go:92="company name is missing" github.com/didip/errstack/errstack.go:24="password field is missing"`
+
+	if e.Error() != expected {
+		t.Fatalf("Error string incorrect.\nexpected: %v,\ngot: %v", expected, e.Error())
+	}
+
+	e.SetTrimFilename(false)
+
+	if e.trimFilename != false {
+		t.Fatalf("Failed to set trimFilename")
+	}
+
+	if e.Error() == expected {
+		t.Fatalf("Error string incorrect.\nexpected: %v,\ngot: %v", expected, e.Error())
 	}
 }

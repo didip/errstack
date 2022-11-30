@@ -7,8 +7,9 @@ import (
 
 // ErrStack contains the error stack
 type ErrStack struct {
-	stack        []*Err
 	showMetadata bool
+	trimFilename bool
+	stack        []*Err
 	mtx          *sync.Mutex
 }
 
@@ -16,6 +17,7 @@ type ErrStack struct {
 func New(err string) *ErrStack {
 	es := &ErrStack{
 		stack:        make([]*Err, 0),
+		trimFilename: true,
 		showMetadata: true,
 		mtx:          &sync.Mutex{},
 	}
@@ -24,23 +26,37 @@ func New(err string) *ErrStack {
 	return es
 }
 
-// AppendErr allows users to append *Err struct into the stack
-func (es *ErrStack) AppendErr(err *Err) {
-	es.mtx.Lock()
-	es.stack = append(es.stack, err)
-	es.mtx.Unlock()
-}
-
-// Append allows users to append an error string
-func (es *ErrStack) Append(err string) {
-	es.AppendErr(NewErr(err))
-}
-
 // SetShowMetadata is a flag to display/hide filename and line number
-func (es *ErrStack) SetShowMetadata(showMetadata bool) {
+func (es *ErrStack) SetShowMetadata(showMetadata bool) *ErrStack {
 	es.mtx.Lock()
 	es.showMetadata = showMetadata
 	es.mtx.Unlock()
+
+	return es
+}
+
+// SetTrimFilename is a flag to trim filename
+func (es *ErrStack) SetTrimFilename(trimFilename bool) *ErrStack {
+	es.mtx.Lock()
+	es.trimFilename = trimFilename
+	es.mtx.Unlock()
+
+	return es
+}
+
+// AppendErr allows users to append *Err struct into the stack
+func (es *ErrStack) AppendErr(err *Err) *ErrStack {
+	es.mtx.Lock()
+	es.stack = append(es.stack, err)
+	es.mtx.Unlock()
+
+	return es
+}
+
+// Append allows users to append an error string
+func (es *ErrStack) Append(err string) *ErrStack {
+	es.AppendErr(NewErr(err))
+	return es
 }
 
 // GetAll returns a list of *Err structs in a LIFO fashion
@@ -72,6 +88,7 @@ func (es *ErrStack) Error() string {
 
 	for i, err := range es.GetAll() {
 		err.SetShowMetadata(es.showMetadata)
+		err.SetTrimFilename(es.trimFilename)
 		asString[i] = err.Error()
 	}
 
