@@ -5,7 +5,7 @@
 
 A very small library to combine errors.
 
-I want my errors to look like this:
+Furthermore, I want my errors to display the filename and line number.
 
 ```
 pool.go:19="missing max value" users.go:25="missing password field"
@@ -32,6 +32,6 @@ func main() {
 
     log.Println(e.Error())
     // The log will look like this:
-    // /path/to/project.go:68="username is too short" /path/to/project.go:65="company name is missing" /Users/didip/go/src/github.com/didip/errstack/errstack.go:15="password field is missing"
+    // /path/to/project.go:68="username is too short" /path/to/project.go:65="company name is missing" /path/to/project.go:15="password field is missing"
 }
 ```
