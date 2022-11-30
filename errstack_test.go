@@ -7,7 +7,7 @@ import (
 
 func TestBasic(t *testing.T) {
 	// 1. First error
-	e := NewString("password field is missing")
+	e := New("password field is missing")
 
 	// 2. And then the second error occured.
 	e.Append("company name is missing")
@@ -45,7 +45,7 @@ func TestBasic(t *testing.T) {
 }
 
 func TestPopAll(t *testing.T) {
-	e := NewString("password field is missing")
+	e := New("password field is missing")
 
 	// 2. And then the second error occured.
 	e.Append("company name is missing")
@@ -59,7 +59,7 @@ func TestPopAll(t *testing.T) {
 
 func TestNoMetadata(t *testing.T) {
 	// 1. First error
-	e := NewString("password field is missing")
+	e := New("password field is missing")
 
 	// 2. And then the second error occured.
 	e.Append("company name is missing")

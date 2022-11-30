@@ -12,8 +12,8 @@ type ErrStack struct {
 	mtx          *sync.Mutex
 }
 
-// NewString creates a new ErrStack given an error string
-func NewString(err string) *ErrStack {
+// New creates a new ErrStack given an error string
+func New(err string) *ErrStack {
 	es := &ErrStack{
 		stack:        make([]*Err, 0),
 		showMetadata: true,

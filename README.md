@@ -22,7 +22,7 @@ import (
 
 func main() {
     // 1. Something bad happened at the beginning of your stack.
-    e := errstack.NewString("password field is missing")
+    e := errstack.New("password field is missing")
 
     // 2. And then the second error occured.
     e.Append("company name is missing")
