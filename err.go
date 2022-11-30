@@ -47,7 +47,9 @@ func (e *Err) getFilename() string {
 			}
 		}
 
-		return strings.Join(chunks[domainIndex:chunksLength], string(os.PathSeparator))
+		if domainIndex >= 0 {
+			return strings.Join(chunks[domainIndex:chunksLength], string(os.PathSeparator))
+		}
 	}
 	return e.filename
 }
